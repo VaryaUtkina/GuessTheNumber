@@ -9,13 +9,13 @@ import SwiftUI
 
 struct UISliderRepresentation: UIViewRepresentable {
     @Binding var sliderValue: Double
+    @Binding var opacity: Double
     
     func makeUIView(context: Context) -> UISlider {
         let slider = UISlider()
         slider.value = Float(sliderValue)
         slider.minimumValue = 0
         slider.maximumValue = 100
-        slider.thumbTintColor = .green
         
         slider.addTarget(
             context.coordinator,
@@ -28,6 +28,7 @@ struct UISliderRepresentation: UIViewRepresentable {
     
     func updateUIView(_ uiView: UISlider, context: Context) {
         uiView.value = Float(sliderValue)
+        uiView.thumbTintColor = UIColor.red.withAlphaComponent(opacity)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -50,5 +51,5 @@ extension UISliderRepresentation {
 }
 
 #Preview {
-    UISliderRepresentation(sliderValue: .constant(50))
+    UISliderRepresentation(sliderValue: .constant(50), opacity: .constant(1.0))
 }
