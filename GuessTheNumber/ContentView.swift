@@ -11,7 +11,6 @@ struct ContentView: View {
     @State private var currentValue = 50.0
     @State private var targetValue = Int.random(in: 0...100)
     @State private var isPresented = false
-    @State private var opacity = 1.0
     
     var body: some View {
         VStack(spacing: 35) {
@@ -25,14 +24,8 @@ struct ContentView: View {
                     .frame(width: 30)
                 UISliderRepresentation(
                     sliderValue: $currentValue,
-                    opacity: $opacity
+                    alpha: Double(computeScore()) / 100
                 )
-                .onAppear {
-                    updateOpacity()
-                }
-                .onChange(of: currentValue) { _, _ in
-                    updateOpacity()
-                }
                 Text("100")
                     .frame(width: 30)
             }
@@ -45,7 +38,6 @@ struct ContentView: View {
                     }
                 Button("Начать заново") {
                     targetValue = Int.random(in: 0...100)
-                    updateOpacity()
                 }
             }
         }
@@ -59,10 +51,6 @@ struct ContentView: View {
     private func computeScore() -> Int {
         let difference = abs(targetValue -  lround(currentValue))
         return 100 - difference
-    }
-    
-    private func updateOpacity() {
-        opacity = Double(computeScore()) / 100
     }
 }
 
